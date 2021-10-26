@@ -20,7 +20,7 @@ import os
 class YOLO(object):
     _defaults = {
         "model_path": 'yolo.h5',
-        "anchors_path": 'yolo_anchors.txt',
+        "anchors_path": '/content/yolov3/yolo_anchors.txt',
         "classes_path": 'model_data/coco_classes.txt',
         "score" : 0.3,
         "iou" : 0.45,
