@@ -16,7 +16,8 @@ from PIL import Image, ImageFont, ImageDraw
 from yolo3.model import yolo_eval, yolo_body, tiny_yolo_body
 from yolo3.utils import letterbox_image
 import os
-from tf.keras.utils import multi_gpu_model
+import tensorflow as tf
+from tensorflow.keras.utils import multi_gpu_model
 
 class YOLO(object):
     _defaults = {
