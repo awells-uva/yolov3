@@ -8,6 +8,7 @@ def detect_img(yolo):
     img = input('Input image filename:')
     image = Image.open(img)
     r_image = yolo.detect_image(image)
+    if r_image.mode in ("RGBA", "P"): r_image = r_image.convert("RGB")
     r_image.save(img.split("/")[-1].split('.')[0] + 'model_out.jpg')
         #try:
         #    image = Image.open(img)
