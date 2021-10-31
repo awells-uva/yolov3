@@ -10,13 +10,14 @@ def detect_img(yolo, testdir):
     
     for img in os.listdir(testdir):
         for ending in img_end:
-            if not img.endswith(ending)
+            if not img.endswith(ending):
+                continue
             #img = input('Input image filename:')
             image = Image.open(img)
             r_image = yolo.detect_image(image)
             if r_image.mode in ("RGBA", "P"): r_image = r_image.convert("RGB")
             os.makedirs(os.path.join(testdir,'boundedImages'), exist_ok=True)
-            print('Saving;')
+            print('Saving: {}'.format(os.path.join(testdir,'boundedImages') + '/' + img.split("/")[-1].split('.')[0] + '_model_out.jpg'))
             r_image.save(os.path.join(testdir,'boundedImages') + '/' + img.split("/")[-1].split('.')[0] + '_model_out.jpg')
                 #try:
                 #    image = Image.open(img)
