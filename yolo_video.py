@@ -13,7 +13,7 @@ def detect_img(yolo, testdir):
             if not img.endswith(ending):
                 continue
             #img = input('Input image filename:')
-            image = Image.open(img)
+            image = Image.open(os.path.join(testdir,img))
             r_image = yolo.detect_image(image)
             if r_image.mode in ("RGBA", "P"): r_image = r_image.convert("RGB")
             os.makedirs(os.path.join(testdir,'boundedImages'), exist_ok=True)
