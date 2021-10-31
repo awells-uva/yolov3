@@ -1,26 +1,34 @@
 import sys
+import os
 import argparse
 from yolo import YOLO, detect_video
 from PIL import Image
 
-def detect_img(yolo):
+img_end = ['png', 'jpg', 'jpeg']
+def detect_img(yolo, testdir):
     #while True:
-    img = input('Input image filename:')
-    image = Image.open(img)
-    r_image = yolo.detect_image(image)
-    if r_image.mode in ("RGBA", "P"): r_image = r_image.convert("RGB")
-    r_image.save(img.split("/")[-1].split('.')[0] + 'model_out.jpg')
-        #try:
-        #    image = Image.open(img)
-        #    r_image = yolo.detect_image(image)
-        #    r_image.show()
-        #except:
-        #    print('Open Error! Try again!')
-        #    continue
-        #else:
-        #    r_image = yolo.detect_image(image)
-        #    r_image.show()
-    yolo.close_session()
+    
+    for img in os.listdir(testdir):
+        for ending in img_end:
+            if not img.endswith(ending)
+            #img = input('Input image filename:')
+            image = Image.open(img)
+            r_image = yolo.detect_image(image)
+            if r_image.mode in ("RGBA", "P"): r_image = r_image.convert("RGB")
+            os.makedirs(os.path.join(testdir,'boundedImages'), exist_ok=True)
+            print('Saving;')
+            r_image.save(os.path.join(testdir,'boundedImages') + '/' + img.split("/")[-1].split('.')[0] + '_model_out.jpg')
+                #try:
+                #    image = Image.open(img)
+                #    r_image = yolo.detect_image(image)
+                #    r_image.show()
+                #except:
+                #    print('Open Error! Try again!')
+                #    continue
+                #else:
+                #    r_image = yolo.detect_image(image)
+                #    r_image.show()
+            yolo.close_session()
 
 FLAGS = None
 
@@ -66,6 +74,12 @@ if __name__ == '__main__':
         "--output", nargs='?', type=str, default="",
         help = "[Optional] Video output path"
     )
+    
+    parser.add_argument(
+        "--testdir", nargs='?', type=str,required=False,default=os.getcwd(),
+        help = "input path for testimages"
+    )
+
 
     FLAGS = parser.parse_args()
 
@@ -76,7 +90,8 @@ if __name__ == '__main__':
         print("Image detection mode")
         if "input" in FLAGS:
             print(" Ignoring remaining command line arguments: " + FLAGS.input + "," + FLAGS.output)
-        detect_img(YOLO(**vars(FLAGS)))
+        
+        detect_img(YOLO(**vars(FLAGS)), FLAGS.testdir)
     elif "input" in FLAGS:
         detect_video(YOLO(**vars(FLAGS)), FLAGS.input, FLAGS.output)
     else:
